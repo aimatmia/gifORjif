@@ -17,7 +17,20 @@ from draw import *
   jdyrlandweaver
   ==================== """
 def first_pass( commands ):
-    pass
+    basename = "DEFAULT"
+    num_frames = 0
+    for c in commands:
+        if c[0] == 'basename':
+            basename = c[1]
+        elif c[0] == 'frames':
+            if len([x for x in commands if x[0] == 'basename'])== 0:
+                print "Name is \"DEFAULT\""
+            num_frames = int(c[1])
+        elif c[0] == 'vary':
+            if len([x for x in commands if x[0] == 'frames']) == 0:
+                print "No frames with 'vary' -> Exiting."
+                return (True, basename, num_frames)
+    return (False, basename, num_frames)
 
 
 """======== second_pass( commands ) ==========
@@ -35,7 +48,20 @@ def first_pass( commands ):
   appropirate value. 
   ===================="""
 def second_pass( commands, num_frames ):
-    pass
+    knobs = []
+    prog = 0
+    while prog < num_frames:
+        knobs.append({})
+        prog+=1
+    i = 0
+    for c in commands[0]:
+        if c[0] == "vary":
+            for i in range (int(c[2]), int(c[3])+1):
+                if float(c[5]) > float(c[4]):
+                    knobs[i][c[1]] = float(c[5]-c[4])/(int(c[3])-int(c[2])+1)*(i-int(c[2]) +1)
+                else:
+                    knobs[i][c[1]] = float(c[4]) - float(c[4]-c[5])/(int(c[3]) - int(c[2]) + 1)*(i - int(c[2]) + 1)
+    return knobs
 
 
 def run(filename):
