@@ -79,12 +79,16 @@ def run(filename):
     else:
         print "Parsing failed."
         return
+    
+    first_pass(commands);
+    second_pass(commands);
 
     ident(tmp)
     stack = [ [x[:] for x in tmp] ]
     screen = new_screen()
     tmp = []
     step = 0.1
+    
     for command in commands:
         print command
         c = command[0]
