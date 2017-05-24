@@ -47,9 +47,10 @@ def first_pass( commands ):
   dictionary corresponding to the given knob with the
   appropirate value. 
   ===================="""
-def second_pass( commands, num_frames ):
+def second_pass( commands):
     knobs = []
     prog = 0
+    num_frames = int(c[1])
     while prog < num_frames:
         knobs.append({})
         prog+=1
