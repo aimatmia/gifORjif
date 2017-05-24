@@ -47,10 +47,9 @@ def first_pass( commands ):
   dictionary corresponding to the given knob with the
   appropirate value. 
   ===================="""
-def second_pass( commands):
+def second_pass( commands, num_frames):
     knobs = []
     prog = 0
-    num_frames = int(c[1])
     while prog < num_frames:
         knobs.append({})
         prog+=1
@@ -82,7 +81,7 @@ def run(filename):
         return
     
     first_pass(commands);
-    second_pass(commands);
+    second_pass(commands, 100);
 
     ident(tmp)
     stack = [ [x[:] for x in tmp] ]
