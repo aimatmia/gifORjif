@@ -89,6 +89,7 @@ def run(filename):
     screen = new_screen()
     tmp = []
     step = 0.1
+    knob_value = 1  
     
     for command in commands:
         print command
