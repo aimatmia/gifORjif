@@ -54,7 +54,7 @@ def second_pass( commands, num_frames):
         knobs.append({})
         prog+=1
     i = 0
-    for c in commands[0]:
+    for c in commands:
         if c[0] == "vary":
             for i in range (int(c[2]), int(c[3])+1):
                 if float(c[5]) > float(c[4]):
