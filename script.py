@@ -29,8 +29,7 @@ def first_pass( commands ):
         elif c[0] == 'vary':
             if len([x for x in commands if x[0] == 'frames']) == 0:
                 print "No frames with 'vary' -> Exiting."
-                return (True, basename, num_frames)
-    return num_frames
+    return (basename, num_frames)
 
 
 """======== second_pass( commands ) ==========
@@ -80,7 +79,7 @@ def run(filename):
         print "Parsing failed."
         return
       
-    num_frames = first_pass(commands)
+    (basename, num_frames) = first_pass(commands)
     anime = num_frames > 1
     knobs = second_pass(commands, num_frames)
     for frame in range(num_frames):
