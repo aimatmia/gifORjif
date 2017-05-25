@@ -30,7 +30,7 @@ def first_pass( commands ):
             if len([x for x in commands if x[0] == 'frames']) == 0:
                 print "No frames with 'vary' -> Exiting."
                 return (True, basename, num_frames)
-    return (False, basename, num_frames)
+    return num_frames
 
 
 """======== second_pass( commands ) ==========
@@ -79,8 +79,10 @@ def run(filename):
     else:
         print "Parsing failed."
         return
-    (tf, basename, num_frames) = first_pass(commands);
-    second_pass(commands, num_frames);
+      
+    num_frames = first_pass(commands)
+    anime = num_frames > 1
+    second_pass(commands, num_frames)
 
     ident(tmp)
     stack = [ [x[:] for x in tmp] ]
@@ -113,7 +115,7 @@ def run(filename):
             draw_polygons(tmp, screen, color)
             tmp = []
         elif c == 'move':
-            if (frames > 1) and args[3] != None:
+            if anime and args[3] != None:
                     knob_name = args[3]
                     knob_value = knobs[frame][knob_name]
             tmp = make_translate(args[0] * knob_value,
@@ -124,7 +126,7 @@ def run(filename):
             stack[-1] = [x[:] for x in tmp]
             tmp = []
         elif c == 'scale':
-            if frames > 1 and args[3] != None:
+            if anime and args[3] != None:
                     knob_name = args[3]
                     knob_value = knobs[frame][knob_name]
             tmp = make_translate(args[0] * knob_value,
@@ -135,7 +137,7 @@ def run(filename):
             stack[-1] = [x[:] for x in tmp]
             tmp = []
         elif c == 'rotate':
-            if frames > 1 and args[2] != None:
+            if anime and args[2] != None:
                     knob_name = args[2]
                     knob_value = knobs[frame][knob_name]
             theta = args[1] * (math.pi/180) * knob_value
