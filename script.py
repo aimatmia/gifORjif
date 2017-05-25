@@ -118,7 +118,7 @@ def run(filename):
         elif c == 'move':
             if anime and args[3] != None:
                     knob_name = args[3]
-                    knob_value = knobs[frame][knob_name]
+                    knob_value = knobs[command][knob_name]
             tmp = make_translate(args[0] * knob_value,
                                  args[1] * knob_value,
                                  args[2] * knob_value)
@@ -129,7 +129,7 @@ def run(filename):
         elif c == 'scale':
             if anime and args[3] != None:
                     knob_name = args[3]
-                    knob_value = knobs[frame][knob_name]
+                    knob_value = knobs[command][knob_name]
             tmp = make_translate(args[0] * knob_value,
                                  args[1] * knob_value,
                                  args[2] * knob_value)
@@ -140,7 +140,7 @@ def run(filename):
         elif c == 'rotate':
             if anime and args[2] != None:
                     knob_name = args[2]
-                    knob_value = knobs[frame][knob_name]
+                    knob_value = knobs[command][knob_name]
             theta = args[1] * (math.pi/180) * knob_value
             
             if args[0] == 'x':
