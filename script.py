@@ -83,84 +83,84 @@ def run(filename):
     num_frames = first_pass(commands)
     anime = num_frames > 1
     knobs = second_pass(commands, num_frames)
-
-    ident(tmp)
-    stack = [ [x[:] for x in tmp] ]
-    screen = new_screen()
-    tmp = []
-    step = 0.1
-    knob_value = 1  
+    for frame in range(num_frames):
+      ident(tmp)
+      stack = [ [x[:] for x in tmp] ]
+      screen = new_screen()
+      tmp = []
+      step = 0.1
+      val = 1  
     
-    for command in commands:
-        print command
-        c = command[0]
-        args = command[1:]
+      for command in commands:
+          print command
+          c = command[0]
+          args = command[1:]
 
-        if c == 'box':
-            add_box(tmp,
-                    args[0], args[1], args[2],
-                    args[3], args[4], args[5])
-            matrix_mult( stack[-1], tmp )
-            draw_polygons(tmp, screen, color)
-            tmp = []
-        elif c == 'sphere':
-            add_sphere(tmp,
-                       args[0], args[1], args[2], args[3], step)
-            matrix_mult( stack[-1], tmp )
-            draw_polygons(tmp, screen, color)
-            tmp = []
-        elif c == 'torus':
-            add_torus(tmp,
-                      args[0], args[1], args[2], args[3], args[4], step)
-            matrix_mult( stack[-1], tmp )
-            draw_polygons(tmp, screen, color)
-            tmp = []
-        elif c == 'move':
-            if anime and args[3] != None:
-                    knob_name = args[3]
-                    knob_value = knobs[command][knob_name]
-            tmp = make_translate(args[0] * knob_value,
-                                 args[1] * knob_value,
-                                 args[2] * knob_value)
+          if c == 'box':
+              add_box(tmp,
+                      args[0], args[1], args[2],
+                      args[3], args[4], args[5])
+              matrix_mult( stack[-1], tmp )
+              draw_polygons(tmp, screen, color)
+              tmp = []
+          elif c == 'sphere':
+              add_sphere(tmp,
+                        args[0], args[1], args[2], args[3], step)
+              matrix_mult( stack[-1], tmp )
+              draw_polygons(tmp, screen, color)
+              tmp = []
+          elif c == 'torus':
+              add_torus(tmp,
+                        args[0], args[1], args[2], args[3], args[4], step)
+              matrix_mult( stack[-1], tmp )
+              draw_polygons(tmp, screen, color)
+              tmp = []
+          elif c == 'move':
+              if anime and args[3] != None:
+                      knob = args[3]
+                      val = knobs[frame][knob]
+              tmp = make_translate(args[0] * val,
+                                  args[1] * val,
+                                  args[2] * val)
             
-            matrix_mult(stack[-1], tmp)
-            stack[-1] = [x[:] for x in tmp]
-            tmp = []
-        elif c == 'scale':
-            if anime and args[3] != None:
-                    knob_name = args[3]
-                    knob_value = knobs[command][knob_name]
-            tmp = make_translate(args[0] * knob_value,
-                                 args[1] * knob_value,
-                                 args[2] * knob_value)
+              matrix_mult(stack[-1], tmp)
+              stack[-1] = [x[:] for x in tmp]
+              tmp = []
+          elif c == 'scale':
+              if anime and args[3] != None:
+                      knob = args[3]
+                      val = knobs[frame][knob]
+              tmp = make_translate(args[0] * val,
+                                  args[1] * val,
+                                  args[2] * val)
             
-            matrix_mult(stack[-1], tmp)
-            stack[-1] = [x[:] for x in tmp]
-            tmp = []
-        elif c == 'rotate':
-            if anime and args[2] != None:
-                    knob_name = args[2]
-                    knob_value = knobs[command][knob_name]
-            theta = args[1] * (math.pi/180) * knob_value
+              matrix_mult(stack[-1], tmp)
+              stack[-1] = [x[:] for x in tmp]
+              tmp = []
+          elif c == 'rotate':
+              if anime and args[2] != None:
+                      knob = args[2]
+                      val = knobs[frame][knob]
+              theta = args[1] * (math.pi/180) * val
             
-            if args[0] == 'x':
-                tmp = make_rotX(theta)
-            elif args[0] == 'y':
-                tmp = make_rotY(theta)
-            else:
-                tmp = make_rotZ(theta)
-            matrix_mult( stack[-1], tmp )
-            stack[-1] = [ x[:] for x in tmp]
-            tmp = []
-        elif c == 'push':
-            stack.append([x[:] for x in stack[-1]] )
-        elif c == 'pop':
-            stack.pop()
-        elif c == 'display':
-            display(screen)
-        elif c == 'save':
-            save_extension(screen, args[0])
+              if args[0] == 'x':
+                  tmp = make_rotX(theta)
+              elif args[0] == 'y':
+                  tmp = make_rotY(theta)
+              else:
+                  tmp = make_rotZ(theta)
+              matrix_mult( stack[-1], tmp )
+              stack[-1] = [ x[:] for x in tmp]
+              tmp = []
+          elif c == 'push':
+              stack.append([x[:] for x in stack[-1]] )
+          elif c == 'pop':
+              stack.pop()
+          elif c == 'display':
+              display(screen)
+          elif c == 'save':
+              save_extension(screen, args[0])
             
-        if anime > 1:
-             "%03d"%12
-             save_extension(screen, "anim/%s%03d" % (basename, frame))    
+          if anime > 1:
+              "%03d"%12
+              save_extension(screen, "anim/%s%03d" % (basename, frame))    
