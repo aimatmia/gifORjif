@@ -79,9 +79,8 @@ def run(filename):
     else:
         print "Parsing failed."
         return
-    
-    first_pass(commands);
-    second_pass(commands, 100);
+    (tf, basename, num_frames) = first_pass(commands);
+    second_pass(commands, num_frames);
 
     ident(tmp)
     stack = [ [x[:] for x in tmp] ]
