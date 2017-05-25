@@ -83,7 +83,7 @@ def run(filename):
     anime = num_frames > 1
     knobs = second_pass(commands, num_frames)
     for frame in range(num_frames):
-      ident(tmp)
+      temp = new_matrix()
       stack = [ [x[:] for x in tmp] ]
       screen = new_screen()
       tmp = []
