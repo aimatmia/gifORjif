@@ -82,7 +82,7 @@ def run(filename):
       
     num_frames = first_pass(commands)
     anime = num_frames > 1
-    second_pass(commands, num_frames)
+    knobs = second_pass(commands, num_frames)
 
     ident(tmp)
     stack = [ [x[:] for x in tmp] ]
