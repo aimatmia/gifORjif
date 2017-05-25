@@ -68,30 +68,30 @@ def run(filename):
     This function runs an mdl script
     """
     color = [255, 255, 255]
-    tmp = new_matrix()
-    ident( tmp )
 
     p = mdl.parseFile(filename)
-
     if p:
         (commands, symbols) = p
     else:
         print "Parsing failed."
         return
-      
     (basename, num_frames) = first_pass(commands)
     anime = num_frames > 1
     knobs = second_pass(commands, num_frames)
     for frame in range(num_frames):
-      temp = new_matrix()
+
+      tmp = new_matrix()
+      ident( tmp )
+
       stack = [ [x[:] for x in tmp] ]
+      print "stack", stack[-1]
       screen = new_screen()
       tmp = []
       step = 0.1
       val = 1  
     
       for command in commands:
-          print command
+          print "commmmand---", command
           c = command[0]
           args = command[1:]
 
@@ -121,7 +121,7 @@ def run(filename):
               tmp = make_translate(args[0] * val,
                                   args[1] * val,
                                   args[2] * val)
-            
+              print tmp, stack[-1]
               matrix_mult(stack[-1], tmp)
               stack[-1] = [x[:] for x in tmp]
               tmp = []
@@ -160,6 +160,6 @@ def run(filename):
           elif c == 'save':
               save_extension(screen, args[0])
             
-          if anime > 1:
+          if anime:
               "%03d"%12
               save_extension(screen, "anim/%s%03d" % (basename, frame))    
