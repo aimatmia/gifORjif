@@ -158,3 +158,7 @@ def run(filename):
             display(screen)
         elif c == 'save':
             save_extension(screen, args[0])
+            
+        if frames > 1:
+             "%03d"%12
+             save_extension(screen, "anim/%s%03d" % (basename, frame))    
